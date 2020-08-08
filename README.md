@@ -1,2 +1,7 @@
-# RTCV_Plugin_Template
-General use Plugin Template for creating RTCV Plugins. The template is based on nullshock78's works on plugin creation.
+# RTCV_PluginTemplate
+General use Plugin Template for RTCV ( https://github.com/ircluzar/RTCV )
+
+Based on nullshock78's works on plugin creation.
+
+# Setup
+You will need to reference DLLs from RTCV, which can be found in the releases or by building it yourself

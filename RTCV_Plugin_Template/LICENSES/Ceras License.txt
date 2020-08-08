@@ -1,6 +1,8 @@
-MIT License
+The following license applies to the Ceras serialization library used within Netcore. You can find Ceras here https://github.com/rikimaru0345/Ceras
 
-Copyright (c) 2020 Nullshock78, Ircluzar
+					The MIT License (MIT)
+
+Copyright (c) 2019 rikimaru0345
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

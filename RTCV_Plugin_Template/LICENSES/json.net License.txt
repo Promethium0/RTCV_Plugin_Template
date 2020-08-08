@@ -1,6 +1,8 @@
-MIT License
+The following license applies to JSON.Net
 
-Copyright (c) 2020 Nullshock78, Ircluzar
+					The MIT License (MIT)
+
+Copyright (c) 2019 rikimaru0345
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

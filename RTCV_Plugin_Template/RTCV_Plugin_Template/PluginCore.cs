@@ -79,12 +79,12 @@ namespace PLUGIN_TEMPLATE
 
 
                 // Doing sanity checks before registering the plugin in the OpenTools form
-                if (S.ISNULL<RTC_OpenTools_Form>())
+                if (S.ISNULL<OpenToolsForm>())
                 {
                     ((Logger)Logging.GlobalLogger).Error(string.Format("{0} v{1} failed to start: Singleton RTC_OpenTools_Form was null.", (object)this.Name, (object)this.Version));
                     return false;
                 }
-                if (S.ISNULL<UI_CoreForm>())
+                if (S.ISNULL<CoreForm>())
                 {
                     ((Logger)Logging.GlobalLogger).Error(string.Format("{0} v{1} failed to start: Singleton UI_CoreForm was null.", (object)this.Name, (object)this.Version));
                     return false;
@@ -95,13 +95,13 @@ namespace PLUGIN_TEMPLATE
                 switch (FormRequestSide)
                 {
                     case RTCSide.Client:
-                        S.GET<RTC_OpenTools_Form>().RegisterTool(cname, $"Open {cname}", () => { LocalNetCoreRouter.Route(Ep.EMU_SIDE, Commands.SHOW_WINDOW, true); });
+                        S.GET<OpenToolsForm>().RegisterTool(cname, $"Open {cname}", () => { LocalNetCoreRouter.Route(Ep.EMU_SIDE, Commands.SHOW_WINDOW, true); });
                         break;
                     case RTCSide.Server:
-                        S.GET<RTC_OpenTools_Form>().RegisterTool(cname, $"Open {cname}", () => { LocalNetCoreRouter.Route(Ep.RTC_SIDE, Commands.SHOW_WINDOW, true); });
+                        S.GET<OpenToolsForm>().RegisterTool(cname, $"Open {cname}", () => { LocalNetCoreRouter.Route(Ep.RTC_SIDE, Commands.SHOW_WINDOW, true); });
                         break;
                     case RTCSide.Both: //if you use this, you might want to pop a different form on each side. see SHOW_WINDOW in PluginConnectorEMU.cs and PluginConnectorRTC.cs
-                        S.GET<RTC_OpenTools_Form>().RegisterTool(cname, $"Open {cname}", () => { 
+                        S.GET<OpenToolsForm>().RegisterTool(cname, $"Open {cname}", () => { 
                             LocalNetCoreRouter.Route(Ep.EMU_SIDE, Commands.SHOW_WINDOW, true);
                             LocalNetCoreRouter.Route(Ep.RTC_SIDE, Commands.SHOW_WINDOW, true);
                         });
@@ -137,6 +137,16 @@ namespace PLUGIN_TEMPLATE
 
             }
             return new string(a);
+        }
+
+        public bool StopPlugin()
+        {
+            if (!S.ISNULL<PluginForm>() && !S.GET<PluginForm>().IsDisposed)
+            {
+                S.GET<PluginForm>().HideOnClose = false;
+                S.GET<PluginForm>().Close();
+            }
+            return true;
         }
 
         #endregion

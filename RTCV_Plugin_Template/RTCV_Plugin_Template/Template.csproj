@@ -34,20 +34,11 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NLog">
-      <HintPath>..\..\..\RTCV\Build\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog.Windows.Forms">
-      <HintPath>..\..\..\RTCV\Build\NLog.Windows.Forms.dll</HintPath>
-    </Reference>
     <Reference Include="PluginHost">
       <HintPath>..\..\..\RTCV\Build\PluginHost.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SevenZipSharp">
-      <HintPath>..\..\..\RTCV\Build\SevenZipSharp.dll</HintPath>
-    </Reference>
     <Reference Include="SlimDX">
       <HintPath>..\..\..\RTCV\Build\SlimDX.dll</HintPath>
     </Reference>
@@ -79,9 +70,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Ceras">
-      <Version>4.1.7</Version>
-    </PackageReference>
     <PackageReference Include="Costura.Fody">
       <Version>5.7.0</Version>
       <PrivateAssets>all</PrivateAssets>

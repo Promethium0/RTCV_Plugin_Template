@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PLUGIN_TEMPLATE
+namespace RomSwapper
 {
     internal static class Ep
     {
-        public const string PREFIX = nameof(PLUGIN_TEMPLATE);
+        public const string PREFIX = nameof(RomSwapper);
         public const string EMU_SIDE = PREFIX + "EMU";
         public const string RTC_SIDE = PREFIX + "RTC";
     }

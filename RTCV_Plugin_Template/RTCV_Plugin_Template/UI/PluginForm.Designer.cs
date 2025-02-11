@@ -1,4 +1,4 @@
-namespace PLUGIN_TEMPLATE.UI
+namespace RomSwapper.UI
 {
 
     partial class PluginForm

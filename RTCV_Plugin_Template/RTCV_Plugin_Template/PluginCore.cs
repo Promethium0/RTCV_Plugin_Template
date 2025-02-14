@@ -1,4 +1,4 @@
-using PLUGIN_TEMPLATE.UI;
+using PatternEngine.UI;
 using NLog;
 using RTCV.Common;
 using RTCV.NetCore;
@@ -10,16 +10,16 @@ using System.Windows.Forms;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
-namespace PLUGIN_TEMPLATE
+namespace PatternEngine
 {
     [Export(typeof(IPlugin))]
-    public class PLUGIN_TEMPLATE : IPlugin, IDisposable
+    public class PatternEngine : IPlugin, IDisposable
     {
         //-------[ Plugin metadata ]-------
 
         // >>> Make sure you rename BOTH the namespace and class (Very important)
-        public string Description => "This template allows you to quickly craft plugins for RTCV";
-        public string Author => "Your name here";
+        public string Description => "Corrupt games using a custom made programming langauge called pattern script";
+        public string Author => "Promethium";
         public Version Version => new Version(0, 0, 1);
 
         //-----[ Plugin loading workflow ]-----
@@ -50,7 +50,7 @@ namespace PLUGIN_TEMPLATE
         internal static PluginConnectorRTC connectorRTC = (PluginConnectorRTC)null;
 
         // the name of the plugin is auto-generated from the class name.
-        public string Name => nameof(PLUGIN_TEMPLATE).Replace("_"," ");
+        public string Name => nameof(PatternEngine).Replace("_"," ");
 
         public void Dispose()
         {
@@ -118,7 +118,7 @@ namespace PLUGIN_TEMPLATE
 
         public bool Stop()
         {
-            if (PLUGIN_TEMPLATE.CurrentSide == RTCSide.Client && !S.ISNULL<PluginForm>() && !S.GET<PluginForm>().IsDisposed)
+            if (PatternEngine.CurrentSide == RTCSide.Client && !S.ISNULL<PluginForm>() && !S.GET<PluginForm>().IsDisposed)
             {
                 S.GET<PluginForm>().HideOnClose = false;
                 S.GET<PluginForm>().Close();

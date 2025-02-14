@@ -11,31 +11,10 @@ using RTCV.Common;
 
 using PatternEngine;
 
-//example code
-//DEF SomeFunction// this is a function definition
-//{ 
-//      // code here
-//
-//
-//}
-//SET 0x00 0x05 // this sets the byte at 0x00 to 0x05
-//GET 0x00 // this gets the byte at 0x00
-//IF 0x00 == 0x05 // if statement if the byte at 0x00 is equal to 0x05
-//SET 0x01 0x10 // it sets the byte at 0x01 to 0x10
-//ELSE// if its not equal to 0x05
-//SET 0x01 0x20 // it sets the byte at 0x01 to 0x20
-//ENDIF // ends the if statement
-//WHILE 0x00 < 0x10 // while the byte at 0x00 is less than 0x10
-//ADD 0x00 0x00 0x01 // it adds 1 to the byte at 0x00
-//ENDWHILE // ends the while loop
-//FOR i = 0; i < 10; i++ // for loop
-//SUB 0x00 0x00 0x01 // subtracts 1 from the byte at 0x00
-//BVALUE 0x00 0x05 // if the byte at 0x00 is equal to 0x05
-//BREAK // it breaks the loop
-//EVERY 2 1 // for every 2 bytes it adds 1
-//ADD 0x00 0x00 0x01 // it adds 1 to the byte at 0x00
-//CALL SomeFunction // calls a function
-//RETURN // returns from a function
+
+
+
+
 namespace PatternEngine.Parser
 {
     public class PatternScriptParser
@@ -46,7 +25,7 @@ namespace PatternEngine.Parser
             string[] lines = script.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
             foreach (string line in lines)
             {
-                string[] parts = line.Split(' ');
+                string[] parts = SplitLine(line);
                 if (parts.Length == 0)
                     continue;
                 string command = parts[0];
@@ -65,15 +44,15 @@ namespace PatternEngine.Parser
                         sb.AppendLine(ParseElse(parts));
                         break;
                     case "ENDIF":
-                        sb.AppendLine(ParseEndIf(parts));
+                        sb.AppendLine(ParseEndIf(parts)); // ends an if statement
                         break;
                     case "WHILE":
                         sb.AppendLine(ParseWhile(parts));
                         break;
                     case "ENDWHILE":
-                        sb.AppendLine(ParseEndWhile(parts));
+                        sb.AppendLine(ParseEndWhile(parts)); // ends a while loop
                         break;
-                    case "CALL": // this is for calling functions this wont be used that much but its here just in case
+                    case "CALL": // this is for calling functions 
                         sb.AppendLine(ParseCall(parts));
                         break;
                     case "RETURN":
@@ -86,13 +65,13 @@ namespace PatternEngine.Parser
                         sb.AppendLine(ParseContinue(parts));
                         break;
                     case "COMMENT":
-                        sb.AppendLine(ParseComment(parts));
+                        sb.AppendLine(ParseComment(parts)); // comments are just // so it just gets ignored
                         break;
                     case "DEF":
                         sb.AppendLine(ParseDef(parts)); // this is for defining functions very important if you want to make a complex script
                         break;
                     case "ADD":
-                        sb.AppendLine(ParseAdd(parts));
+                        sb.AppendLine(ParseAdd(parts)); // adds (you know what this crap dose i dont need to comment this)
                         break;
                     case "FOR": // the main loopy guy lmao
                         sb.AppendLine(ParseFor(parts));
@@ -100,7 +79,7 @@ namespace PatternEngine.Parser
                     case "BVALUE": // byte value basically how it works is like this "if bvalue =0x05 then break" and stuff along those lines
                         sb.AppendLine(ParseBValue(parts));
                         break;
-                    case "EVERY": // this is basical a type of loop where you can set paramaters so for example "for every 2b add 1" so it would add 1 every two bytes to the byte it stops on
+                    case "EVERY": // this is basically a type of loop where you can set paramaters so for example "for every 2b add 1" so it would add 1 every two bytes to the byte it stops on
                         sb.AppendLine(ParseEvery(parts));
                         break;
 
@@ -113,12 +92,56 @@ namespace PatternEngine.Parser
                     case "DIV":
                         sb.AppendLine(ParseDiv(parts));
                         break;
+                    case "THEN": // this is for the if statement so you can do "if 0x00 == 0x05 then" and then do stuff
+                        sb.AppendLine(ParseThen(parts));
+                        break;
+                    case "IN RANGE": // this for defining an adress range so you can do stuff like "for every 2b in range 0x00 0x05 add 1" so it would add 1 to every two bytes in the range of 0x00 to 0x05
+                        sb.AppendLine(ParseInRange(parts));
+                        break;
                     default:
                         sb.AppendLine(ParseDefault(parts));
                         break;
                 }
             }
             return sb.ToString();
+        }
+
+        private static string[] SplitLine(string line) // promethiums sad attempt at getting this to work (it dosent)
+        {
+            List<string> parts = new List<string>();
+            StringBuilder currentPart = new StringBuilder(); 
+            bool insideSpecial = false;
+
+            foreach (char c in line)
+            {
+                if (c == ' ' && !insideSpecial)
+                {
+                    if (currentPart.Length > 0)
+                    {
+                        parts.Add(currentPart.ToString());
+                        currentPart.Clear();
+                    }
+                }
+                else
+                {
+                    if (c == '(' || c == '{' || c == '[')
+                    {
+                        insideSpecial = true; 
+                    }
+                    else if (c == ')' || c == '}' || c == ']')
+                    {
+                        insideSpecial = false;
+                    }
+                    currentPart.Append(c);
+                }
+            }
+
+            if (currentPart.Length > 0)
+            {
+                parts.Add(currentPart.ToString());
+            }
+
+            return parts.ToArray();
         }
 
         private static string ParseSet(string[] parts)
@@ -133,27 +156,27 @@ namespace PatternEngine.Parser
 
         private static string ParseIf(string[] parts)
         {
-            return $"if ({parts[1]})";
+            return $"if ({parts[1]}) {{";
         }
 
         private static string ParseElse(string[] parts)
         {
-            return "else";
+            return "} else {";
         }
 
         private static string ParseEndIf(string[] parts)
         {
-            return "endif";
+            return "}";
         }
 
         private static string ParseWhile(string[] parts)
         {
-            return $"while ({parts[1]})";
+            return $"while ({parts[1]}) {{";
         }
 
         private static string ParseEndWhile(string[] parts)
         {
-            return "endwhile";
+            return "}";
         }
 
         private static string ParseCall(string[] parts)
@@ -164,6 +187,11 @@ namespace PatternEngine.Parser
         private static string ParseReturn(string[] parts)
         {
             return "return;";
+        }
+
+        private static string ParseInRange(string[] parts)
+        {
+            return $"for (int i = {parts[1]}; i < {parts[2]}; i += {parts[3]}) {{";
         }
 
         private static string ParseBreak(string[] parts)
@@ -201,21 +229,27 @@ namespace PatternEngine.Parser
             return $"{parts[1]} = {parts[2]} / {parts[3]};";
         }
 
+        private static string ParseThen(string[] parts)
+        {
+            if (parts.Length > 1)
+            {
+                return $"then {string.Join(" ", parts.Skip(1))}";
+            }
+            return "then";
+        }
+
         private static string ParseFor(string[] parts)
         {
-           
-            return $"for ({parts[1]}; {parts[2]}; {parts[3]})";
+            return $"for ({parts[1]}; {parts[2]}; {parts[3]}) {{";
         }
 
         private static string ParseBValue(string[] parts)
         {
-           
-            return $"if ({parts[1]} == {parts[2]})";
+            return $"if ({parts[1]} == {parts[2]}) {{";
         }
 
         private static string ParseEvery(string[] parts)
         {
-            
             return $"for (int i = 0; i < {parts[1]}; i += {parts[2]}) {{ {parts[3]} }}";
         }
 
@@ -226,7 +260,7 @@ namespace PatternEngine.Parser
 
         private static string ParseDef(string[] parts)
         {
-            return $"private void {parts[1]}()"; // i dont know if i should be using private or public so i just used private
+            return $"private void {parts[1]}() {{";
         }
     }
 }

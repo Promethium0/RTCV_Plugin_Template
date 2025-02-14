@@ -1,4 +1,4 @@
-using PLUGIN_TEMPLATE.UI;
+using PatternEngine.UI;
 using NLog;
 using RTCV.Common;
 using RTCV.CorruptCore;
@@ -6,13 +6,13 @@ using RTCV.NetCore;
 using System;
 using System.Windows.Forms;
 
-namespace PLUGIN_TEMPLATE
+namespace PatternEngine
 {
     internal class PluginConnectorEMU : IRoutable
     {
-        PLUGIN_TEMPLATE plugin;
+        PatternEngine plugin;
 
-        public PluginConnectorEMU(PLUGIN_TEMPLATE _plugin)
+        public PluginConnectorEMU(PatternEngine _plugin)
         {
             plugin = _plugin;
             LocalNetCoreRouter.registerEndpoint(this, Ep.EMU_SIDE);
@@ -30,8 +30,8 @@ namespace PLUGIN_TEMPLATE
                         {
                             if (((Control)S.GET<PluginForm>()).IsDisposed)
                             {
-                                PLUGIN_TEMPLATE.PluginForm = new PluginForm(plugin);
-                                S.SET<PluginForm>(PLUGIN_TEMPLATE.PluginForm);
+                                PatternEngine.PluginForm = new PluginForm(plugin);
+                                S.SET<PluginForm>(PatternEngine.PluginForm);
                             }
                             ((Control)S.GET<PluginForm>()).Show();
                             ((Form)S.GET<PluginForm>()).Activate();

@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PLUGIN_TEMPLATE;
+using PatternEngine;
 using RTCV.CorruptCore;
 using RTCV.NetCore;
 using System.Windows.Forms;
-using PLUGIN_TEMPLATE.UI;
+using PatternEngine.UI;
 using RTCV.Common;
 
-namespace PLUGIN_TEMPLATE
+namespace      PatternEngine 
 {
     /// <summary>
     /// This lies on the emulator side
     /// </summary>
     class PluginConnectorRTC : IRoutable
     {
-        PLUGIN_TEMPLATE plugin;
-        public PluginConnectorRTC(PLUGIN_TEMPLATE _plugin)
+        PatternEngine plugin;
+        public PluginConnectorRTC(PatternEngine _plugin)
         {
             plugin = _plugin;
 
@@ -39,8 +39,8 @@ namespace PLUGIN_TEMPLATE
                         {
                             if (((Control)S.GET<UI.PluginForm>()).IsDisposed)
                             {
-                                PLUGIN_TEMPLATE.PluginForm = new PluginForm(plugin);
-                                S.SET<PluginForm>(PLUGIN_TEMPLATE.PluginForm);
+                                PatternEngine.PluginForm = new PluginForm(plugin);
+                                S.SET<PluginForm>(PatternEngine.PluginForm);
                             }
                             ((Control)S.GET<PluginForm>()).Show();
                             ((Form)S.GET<PluginForm>()).Activate();

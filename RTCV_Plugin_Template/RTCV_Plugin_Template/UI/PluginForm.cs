@@ -1,4 +1,4 @@
-namespace PLUGIN_TEMPLATE.UI
+namespace PatternEngine.UI
 {
     using System;
     using System.Collections.Generic;
@@ -20,13 +20,13 @@ namespace PLUGIN_TEMPLATE.UI
 
     public partial class PluginForm : Form
     {
-        public PLUGIN_TEMPLATE plugin;
+        public PatternEngine plugin;
 
         public volatile bool HideOnClose = true;
 
         Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public PluginForm(PLUGIN_TEMPLATE _plugin)
+        public PluginForm(PatternEngine _plugin)
         {
             plugin = _plugin;
 
@@ -34,7 +34,7 @@ namespace PLUGIN_TEMPLATE.UI
             this.FormClosing += new FormClosingEventHandler(this.PluginForm_FormClosing);
 
 
-            this.Text = PLUGIN_TEMPLATE.CamelCase(nameof(PLUGIN_TEMPLATE).Replace("_", " ")) + $" - Version {plugin.Version.ToString()}"; //automatic window title
+            this.Text = PatternEngine.CamelCase(nameof(PatternEngine).Replace("_", " ")) + $" - Version {plugin.Version.ToString()}"; //automatic window title
         }
 
 
